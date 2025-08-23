@@ -14,3 +14,18 @@
 .card:hover {
     transform: translateY(-5px);
 }
+
+/* Blog cards on homepage */
+.blog-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+.blog-card:hover {
+    transform: translateY(-5px);
+}
+.blog-card-img {
+    height: 220px;
+    object-fit: cover;
+    width: 100%;
+}
