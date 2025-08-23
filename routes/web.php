@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +33,23 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+// Group routes that require authentication
+Route::middleware(['auth'])->group(function () {
+
+    // Show form to create a new post
+    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+
+    // Store new post
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
+    // Show form to edit an existing post
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+
+    // Update post
+    Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+
+    // Delete post
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+});
