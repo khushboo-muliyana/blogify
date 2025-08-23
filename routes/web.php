@@ -38,6 +38,9 @@ require __DIR__.'/auth.php';
 // Group routes that require authentication
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+
+
     // Show form to create a new post
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 

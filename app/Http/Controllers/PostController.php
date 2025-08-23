@@ -97,4 +97,11 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully!');
     }
+
+
+    public function show(Post $post)
+{
+    return view('posts.show', compact('post'));
+}
+
 }
