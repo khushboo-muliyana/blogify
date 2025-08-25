@@ -25,7 +25,7 @@
 
                     <div class="mt-4">
                         <a href="{{ route('home') }}" class="btn btn-primary me-2">Home Page</a>
-                        <a href="{{ route('posts.index') }}" class="btn btn-success me-2">Manage Posts</a>
+                        <a href="{{ route('posts.myPosts') }}" class="btn btn-success me-2">Manage Posts</a>
                         <a href="{{ route('posts.create') }}" class="btn btn-warning">Create Post</a>
                     </div>
                 </div>

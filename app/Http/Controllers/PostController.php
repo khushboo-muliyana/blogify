@@ -104,4 +104,13 @@ class PostController extends Controller
     return view('posts.show', compact('post'));
 }
 
+public function myPosts()
+{
+    // Only fetch posts created by the logged-in user
+    $posts = Post::where('user_id', Auth::id())->latest()->paginate(6);
+
+    return view('posts.my-posts', compact('posts'));
+}
+
+
 }

@@ -19,6 +19,9 @@ Route::middleware(['auth', 'role:admin,writer'])->group(function () {
     Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+    Route::get('/my-posts', [PostController::class, 'myPosts'])->name('posts.myPosts');
+
 });
 
 // Public post routes

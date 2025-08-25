@@ -41,7 +41,7 @@
         </div>
 
         <button type="submit" class="btn btn-dark">Update Post</button>
-        <a href="{{ route('posts.index') }}" class="btn btn-secondary">Cancel</a>
+        <a href="{{ route('posts.myPosts') }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 @endsection
