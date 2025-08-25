@@ -42,4 +42,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function isAdmin(): bool
+{
+    return $this->role === 'admin';
+}
+public function isWriter(): bool
+{
+    return $this->role === 'writer';
+}
+public function isReader(): bool
+{
+    return $this->role === 'user';
+}
+
 }

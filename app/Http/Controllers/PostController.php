@@ -10,9 +10,9 @@ use Illuminate\Support\Str;
 class PostController extends Controller
 {
     // Only authenticated users can access these routes
-    public function __construct()
+   public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index', 'show']);
     }
 
     // Display all posts

@@ -6,7 +6,13 @@
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>All Posts</h2>
-        <a href="{{ route('posts.create') }}" class="btn btn-dark">Create New Post</a>
+
+        {{-- Create button: only Admins or Writers --}}
+        @auth
+            @if(Auth::user()->isAdmin() || Auth::user()->isWriter())
+                <a href="{{ route('posts.create') }}" class="btn btn-dark">Create New Post</a>
+            @endif
+        @endauth
     </div>
 
     @if(session('success'))
@@ -38,24 +44,27 @@
                         <p class="text-muted mb-0">By {{ $post->user->name }}</p>
                     </div>
 
-                    {{-- Post Actions (Always Bottom) --}}
+                    {{-- Post Actions --}}
                     <div class="card-footer d-flex justify-content-between align-items-center">
                         <a href="{{ route('posts.show', $post->id) }}" 
                            class="btn btn-sm btn-secondary">Read More</a>
 
-                        @if(Auth::id() === $post->user_id)
-                            <div class="d-flex gap-2">
-                                <a href="{{ route('posts.edit', $post->id) }}" 
-                                   class="btn btn-sm btn-primary">Edit</a>
-                                <form action="{{ route('posts.destroy', $post->id) }}" 
-                                      method="POST" 
-                                      onsubmit="return confirm('Are you sure you want to delete this post?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                </form>
-                            </div>
-                        @endif
+                        @auth
+                            {{-- Show Edit/Delete if owner OR Admin --}}
+                            @if(Auth::id() === $post->user_id || Auth::user()->isAdmin())
+                                <div class="d-flex gap-2">
+                                    <a href="{{ route('posts.edit', $post->id) }}" 
+                                       class="btn btn-sm btn-primary">Edit</a>
+                                    <form action="{{ route('posts.destroy', $post->id) }}" 
+                                          method="POST" 
+                                          onsubmit="return confirm('Are you sure you want to delete this post?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endauth
                     </div>
                 </div>
             </div>
