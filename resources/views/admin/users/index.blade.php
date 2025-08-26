@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layout')
 
 @section('title', 'Manage Users')
 
@@ -49,7 +49,7 @@
                         </td>
                         <td class="text-end">
                             {{-- Optional: add block/delete here later --}}
-                            <a href="{{ route('admin.posts.index') }}?author={{ $user->id }}" class="btn btn-sm btn-outline-secondary">View Posts</a>
+                            <a href="{{ route('admin.users.posts', $user->id) }}" class="btn btn-sm btn-outline-secondary">View Posts</a>
                         </td>
                     </tr>
                 @empty

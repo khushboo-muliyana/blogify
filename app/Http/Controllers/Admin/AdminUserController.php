@@ -38,4 +38,12 @@ class AdminUserController extends Controller
 
         return back()->with('success', "Role updated for {$user->name} to {$user->role}.");
     }
+
+
+        public function posts(User $user)
+    {
+        $posts = $user->posts()->latest() ->paginate(10);; // assuming relation user->posts()
+        return view('admin.users.posts', compact('user', 'posts'));
+    }
+
 }

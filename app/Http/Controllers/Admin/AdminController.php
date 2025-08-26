@@ -9,13 +9,12 @@ use App\Models\Post;
 class AdminController extends Controller
 {
     public function index()
-    {
-        $stats = [
-            'users' => User::count(),
-            'posts' => Post::count(),
-            'writers' => User::where('role', 'writer')->count(),
-        ];
-
-        return view('admin.dashboard', compact('stats'));
+   {
+        return view('admin.dashboard', [
+            'totalUsers' => User::count(),
+            'totalPosts' => Post::count(),
+            'totalWriters' => User::where('role', 'writer')->count(),
+            'totalAdmins' => User::where('role', 'admin')->count(),
+        ]);
     }
 }

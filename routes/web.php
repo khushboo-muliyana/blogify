@@ -52,6 +52,8 @@ Route::prefix('admin')
         // Manage Users
         Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
         Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.updateRole');
+        Route::get('/users/{user}/posts', [AdminUserController::class, 'posts'])->name('users.posts');
+
 
         // Manage Posts (all posts)
         Route::get('/posts', [AdminPostController::class, 'index'])->name('posts.index');

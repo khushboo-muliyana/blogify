@@ -57,4 +57,9 @@ public function isReader(): bool
     return $this->role === 'user';
 }
 
+public function posts()
+{
+    return $this->hasMany(Post::class);
+}
+
 }
