@@ -23,12 +23,12 @@
                             @if ($post->image)
                                 <img src="{{ asset('storage/' . $post->image) }}" 
                                      class="card-img-top" alt="{{ $post->title }}">
-                            @else
-                                <img src="https://via.placeholder.com/400x200?text=No+Image" 
-                                     class="card-img-top" alt="No image">
+                           @else
+                                <img src="{{ asset('images/default.png') }}" 
+                                    class="card-img-top" alt="Default Image">
                             @endif
                             <div class="card-body">
-                                <h5 class="card-title">{{ $post->title }}</h5>
+                                <h5 class="card-title">{{ Str::limit($post->title, 40) }}</h5>
                                 <p class="card-text text-muted">
                                     {{ Str::limit($post->content, 100) }}
                                 </p>
