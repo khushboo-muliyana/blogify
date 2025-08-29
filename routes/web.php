@@ -57,6 +57,11 @@ Route::prefix('admin')
 
         // Manage Posts (all posts)
         Route::get('/posts', [AdminPostController::class, 'index'])->name('posts.index');
+        // Admin routes for editing & deleting posts
+        Route::get('posts/{post}/edit', [AdminPostController::class, 'edit'])->name('posts.edit');
+        Route::put('posts/{post}', [AdminPostController::class, 'update'])->name('posts.update');
+        Route::delete('posts/{post}', [AdminPostController::class, 'destroy'])->name('posts.destroy');
+
     });
 
 require __DIR__.'/auth.php';

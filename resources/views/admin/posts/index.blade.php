@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layout')
 
 @section('title', 'Manage Posts')
 
@@ -21,15 +21,19 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($posts as $post)
+                @forelse($posts as $index => $post)
                     <tr>
-                        <td>{{ $post->id }}</td>
-                        <td><a href="{{ route('posts.show', $post) }}">{{ \Illuminate\Support\Str::limit($post->title, 60) }}</a></td>
+                        {{-- Serial number with pagination support --}}
+                        <td>{{ $posts->firstItem() + $index }}</td>
+
+                        {{-- Title as plain text, no link --}}
+                        <td>{{ \Illuminate\Support\Str::limit($post->title, 60) }}</td>
+
                         <td>{{ $post->user?->name ?? '—' }}</td>
                         <td>{{ $post->created_at->format('M d, Y') }}</td>
                         <td class="text-end">
-                            <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm btn-primary">Edit</a>
-                            <form action="{{ route('posts.destroy', $post) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this post?')">
+                            <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-sm btn-primary">Edit</a>
+                            <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this post?')">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger">Delete</button>

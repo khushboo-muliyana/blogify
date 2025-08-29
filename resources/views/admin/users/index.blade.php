@@ -27,9 +27,9 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($users as $user)
+                @forelse($users as  $index => $user)
                     <tr>
-                        <td>{{ $user->id }}</td>
+                        <td>{{ $users->firstItem() + $index }}</td>
                         <td>
                             <strong>{{ $user->name }}</strong><br>
                             <small class="text-muted">Joined {{ $user->created_at->format('M d, Y') }}</small>
