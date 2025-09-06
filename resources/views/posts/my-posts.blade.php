@@ -11,8 +11,12 @@
             @foreach($posts as $post)
                 <div class="col-md-6 mb-4">
                     <div class="card shadow-sm">
-                        @if($post->image)
-                            <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top" alt="{{ $post->title }}">
+                        @if ($post->image)
+                                <img src="{{ asset('storage/' . $post->image) }}" 
+                                     class="card-img-top" alt="{{ $post->title }}">
+                        @else
+                                <img src="{{ asset('images/default.png') }}" 
+                                    class="card-img-top" alt="Default Image">
                         @endif
                         <div class="card-body">
                             <h5 class="card-title">{{ $post->title }}</h5>

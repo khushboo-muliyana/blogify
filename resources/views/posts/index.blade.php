@@ -25,17 +25,13 @@
                 <div class="card h-100 d-flex flex-column shadow-sm">
                     
                     {{-- Post Image --}}
-                    @if($post->image)
-                        <div class="card-img-container">
-                            <img src="{{ asset('storage/'.$post->image) }}" 
-                                 class="card-img-top" 
-                                 alt="{{ $post->title }}">
-                        </div>
-                    @else
-                        <div class="card-img-container bg-light d-flex align-items-center justify-content-center text-muted">
-                            <span>No Image</span>
-                        </div>
-                    @endif
+                    @if ($post->image)
+                    <img src="{{ asset('storage/' . $post->image) }}" 
+                                                    class="card-img-top" alt="{{ $post->title }}">
+                        @else
+                    <img src="{{ asset('images/default.png') }}" 
+                                                    class="card-img-top" alt="Default Image">
+                        @endif
 
                     {{-- Post Content --}}
                     <div class="card-body flex-grow-1 d-flex flex-column">

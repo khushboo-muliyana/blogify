@@ -5,10 +5,14 @@
 @section('content')
 <div class="container my-5">
     <div class="card shadow-lg">
-        @if($post->image)
-            <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top" alt="{{ $post->title }}">
-        @endif
-        <div class="card-body">
+        @if ($post->image)
+     <img src="{{ asset('storage/' . $post->image) }}" 
+                                     class="card-img-top" alt="{{ $post->title }}">
+        @else
+    <img src="{{ asset('images/default.png') }}" 
+                                    class="card-img-top" alt="Default Image">
+         @endif
+    <div class="card-body">
             <h1 class="card-title">{{ $post->title }}</h1>
             <p class="text-muted">
                 By <strong>{{ $post->user->name }}</strong> 
