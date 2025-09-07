@@ -18,6 +18,18 @@
                 By <strong>{{ $post->user->name }}</strong> 
                 • {{ $post->created_at->format('F d, Y') }}
             </p>
+               {{-- Category --}}
+            @if($post->category)
+                <span class="badge bg-primary">{{ $post->category->name }}</span>
+            @endif
+
+            {{-- Tags --}}
+            @foreach($post->tags as $tag)
+                <span class="badge bg-secondary">{{ $tag->name }}</span>
+            @endforeach
+
+            <hr>
+
             <p class="card-text fs-5">
                 {{ $post->content }}
             </p>

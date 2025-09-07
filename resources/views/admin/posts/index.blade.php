@@ -15,6 +15,8 @@
                 <tr>
                     <th>#</th>
                     <th>Title</th>
+                    <th>Category</th>
+                    <th>Tags</th>
                     <th>Author</th>
                     <th>Created</th>
                     <th class="text-end">Actions</th>
@@ -26,11 +28,30 @@
                         {{-- Serial number with pagination support --}}
                         <td>{{ $posts->firstItem() + $index }}</td>
 
-                        {{-- Title as plain text, no link --}}
+                        {{-- Title --}}
                         <td>{{ \Illuminate\Support\Str::limit($post->title, 60) }}</td>
 
+                        {{-- Category --}}
+                        <td>{{ $post->category?->name ?? '—' }}</td>
+
+                        {{-- Tags --}}
+                        <td>
+                            @if($post->tags->count())
+                                @foreach($post->tags as $tag)
+                                    <span class="badge bg-secondary">{{ $tag->name }}</span>
+                                @endforeach
+                            @else
+                                <span class="text-muted">—</span>
+                            @endif
+                        </td>
+
+                        {{-- Author --}}
                         <td>{{ $post->user?->name ?? '—' }}</td>
+
+                        {{-- Created date --}}
                         <td>{{ $post->created_at->format('M d, Y') }}</td>
+
+                        {{-- Actions --}}
                         <td class="text-end">
                             <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-sm btn-primary">Edit</a>
                             <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this post?')">
@@ -41,7 +62,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" class="text-center text-muted">No posts found.</td></tr>
+                    <tr><td colspan="7" class="text-center text-muted">No posts found.</td></tr>
                 @endforelse
             </tbody>
         </table>

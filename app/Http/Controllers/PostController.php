@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Models\Category;
+use App\Models\Tag;
 
 class PostController extends Controller
 {
@@ -18,14 +20,16 @@ class PostController extends Controller
     // Display all posts
     public function index()
     {
-        $posts = Post::latest()->with('user')->paginate(6);
+    $posts = Post::with(['user','category','tags'])->latest()->paginate(6);
         return view('posts.index', compact('posts'));
     }
 
     // Show form to create a post
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::orderBy('name')->get();
+        $tags = Tag::orderBy('name')->get();
+        return view('posts.create', compact('categories', 'tags'));
     }
 
     // Store a new post
@@ -34,7 +38,10 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
         $path = null;
@@ -42,14 +49,24 @@ class PostController extends Controller
             $path = $request->file('image')->store('uploads', 'public');
         }
 
-        Post::create([
+        // create post with category_id
+        $post = Post::create([
             'user_id' => Auth::id(),
             'title' => $request->title,
             'content' => $request->content,
-            'image' => $path
+            'image' => $path,
+            'category_id' => $request->category_id,
         ]);
 
-        return redirect()->route('posts.index')->with('success', 'Post created successfully!');
+        // attach tags
+        $post->tags()->sync($request->tags ?? []);
+
+        if (auth()->user()->role === 'admin') {
+         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully.');
+        } else {
+            return redirect()->route('posts.myPosts')->with('success', 'Post created successfully.');
+        }
+
     }
 
     // Show form to edit a post
@@ -59,8 +76,9 @@ class PostController extends Controller
         if ($post->user_id !== Auth::id()) {
             abort(403);
         }
-
-        return view('posts.edit', compact('post'));
+          $categories = Category::orderBy('name')->get();
+            $tags = Tag::orderBy('name')->get();
+             return view('posts.edit', compact('post', 'categories', 'tags'));
     }
 
     // Update a post
@@ -73,7 +91,10 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
         if ($request->hasFile('image')) {
@@ -82,7 +103,11 @@ class PostController extends Controller
 
         $post->title = $request->title;
         $post->content = $request->content;
+        $post->category_id = $request->category_id;
         $post->save();
+
+        // sync tags
+        $post->tags()->sync($request->tags ?? []);
 
         return redirect()->route('posts.index')->with('success', 'Post updated successfully!');
     }
@@ -100,9 +125,11 @@ class PostController extends Controller
 
 
     public function show(Post $post)
-{
-    return view('posts.show', compact('post'));
-}
+    {
+        $post->load(['category', 'tags', 'user']);
+
+        return view('posts.show', compact('post'));
+    }
 
 public function myPosts()
 {

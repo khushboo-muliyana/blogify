@@ -36,6 +36,16 @@
                                     By {{ $post->user->name ?? 'Unknown' }}
                                     • {{ $post->created_at->diffForHumans() }}
                                 </small>
+
+                                {{-- Category --}}
+                            @if($post->category)
+                                <span class="badge bg-primary">{{ $post->category->name }}</span>
+                            @endif
+
+                            {{-- Tags --}}
+                            @foreach($post->tags as $tag)
+                                <span class="badge bg-secondary">{{ $tag->name }}</span>
+                            @endforeach
                             </div>
                             <div class="card-footer bg-white">
                                 <a href="{{ route('posts.show', $post->id) }}" class="btn btn-outline-dark btn-sm">

@@ -6,10 +6,15 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminPostController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminTagController;
 
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/category/{category:slug}', [HomeController::class, 'category'])->name('category.show');
+Route::get('/tag/{tag:slug}', [HomeController::class, 'tag'])->name('tag.show');
+
 
 // Dashboard (only for logged-in users)
 Route::get('/dashboard', function () {
@@ -62,6 +67,13 @@ Route::prefix('admin')
         Route::put('posts/{post}', [AdminPostController::class, 'update'])->name('posts.update');
         Route::delete('posts/{post}', [AdminPostController::class, 'destroy'])->name('posts.destroy');
 
+
+            // categories
+        Route::resource('categories', AdminCategoryController::class)
+            ->except(['show']);
+        // tags
+        Route::resource('tags', AdminTagController::class)
+            ->except(['show']);
     });
 
 require __DIR__.'/auth.php';

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'title', 'content', 'image'];
+    protected $fillable = ['user_id', 'title', 'content', 'image', 'category_id'];
  
     // Add this relationship
     public function user()
@@ -16,4 +16,14 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
     
+
+        public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->with('user')->paginate(6);
+    $posts = Post::with(['user','category','tags'])->latest()->paginate(6);
         return view('home', compact('posts'));
     }
 }

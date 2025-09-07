@@ -36,6 +36,21 @@
                     {{-- Post Content --}}
                     <div class="card-body flex-grow-1 d-flex flex-column">
                         <h5 class="card-title">{{ $post->title }}</h5>
+                        
+                        {{-- Category --}}
+                        @if($post->category)
+                            <p class="mb-1"><strong>Category:</strong> {{ $post->category->name }}</p>
+                        @endif
+
+                        {{-- Tags --}}
+                        @if($post->tags->count())
+                            <p class="mb-2">
+                                <strong>Tags:</strong>
+                                @foreach($post->tags as $tag)
+                                    <span class="badge bg-secondary">{{ $tag->name }}</span>
+                                @endforeach
+                            </p>
+                        @endif
                         <p class="card-text flex-grow-1">{{ Str::limit($post->content, 100) }}</p>
                         <p class="text-muted mb-0">By {{ $post->user->name }}</p>
                     </div>

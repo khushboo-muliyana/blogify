@@ -33,6 +33,34 @@
             <input type="file" name="image" id="image" class="form-control">
         </div>
 
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select name="category_id" id="category" class="form-select">
+                <option value="">-- Select category --</option>
+                @foreach($categories as $cat)
+                    <option value="{{ $cat->id }}" 
+                        @selected(old('category_id', $post->category_id ?? '') == $cat->id)>
+                        {{ $cat->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="tags" class="form-label">Tags</label>
+            <select name="tags[]" id="tags" class="form-select" multiple>
+                @foreach($tags as $t)
+                    <option value="{{ $t->id }}"
+                        @if(in_array($t->id, old('tags', isset($post) ? $post->tags->pluck('id')->toArray() : []))) selected @endif>
+                        {{ $t->name }}
+                    </option>
+                @endforeach
+            </select>
+            <small class="text-muted">Hold Ctrl/Cmd to select multiple</small>
+        </div>
+
+        
+
         <button type="submit" class="btn btn-dark">Create Post</button>
         <a href="{{ route('posts.index') }}" class="btn btn-secondary">Cancel</a>
     </form>

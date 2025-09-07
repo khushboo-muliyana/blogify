@@ -43,6 +43,35 @@
                     <textarea name="content" id="content" rows="5" class="form-control" required>{{ old('content', $post->content) }}</textarea>
                 </div>
 
+
+                {{-- Category --}}
+                <div class="mb-3">
+                    <label for="category_id" class="form-label fw-bold">Category</label>
+                    <select name="category_id" id="category_id" class="form-select">
+                        <option value="">— No Category —</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" 
+                                {{ old('category_id', $post->category_id) == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- Tags --}}
+                <div class="mb-3">
+                    <label for="tags" class="form-label fw-bold">Tags</label>
+                    <select name="tags[]" id="tags" class="form-select" multiple>
+                        @foreach($tags as $tag)
+                            <option value="{{ $tag->id }}"
+                                {{ in_array($tag->id, old('tags', $post->tags->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                {{ $tag->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <small class="text-muted">Hold Ctrl (Windows) / Cmd (Mac) to select multiple</small>
+                </div>
+
                 {{-- Image --}}
                 <div class="mb-3">
                     <label for="image" class="form-label fw-bold">Image (optional)</label>

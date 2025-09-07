@@ -20,6 +20,20 @@
                         @endif
                         <div class="card-body">
                             <h5 class="card-title">{{ $post->title }}</h5>
+                             {{-- Display category --}}
+                        @if($post->category)
+                            <p class="mb-1"><strong>Category:</strong> {{ $post->category->name }}</p>
+                        @endif
+
+                        {{-- Display tags --}}
+                        @if($post->tags->count())
+                            <p class="mb-2">
+                                <strong>Tags:</strong>
+                                @foreach($post->tags as $tag)
+                                    <span class="badge bg-primary">{{ $tag->name }}</span>
+                                @endforeach
+                            </p>
+                        @endif
                             <p class="card-text">{{ Str::limit($post->content, 100) }}</p>
                             <a href="{{ route('posts.show', $post) }}" class="btn btn-primary btn-sm">View</a>
                             <a href="{{ route('posts.edit', $post) }}" class="btn btn-warning btn-sm">Edit</a>
